@@ -1,0 +1,30 @@
+class Arena{
+  
+  // Pontos iniciais
+  
+  float arenaX;
+  float arenaY;
+  
+  // Pontos finais
+  
+  float arenaX2;
+  float arenaY2;
+  
+  // Construtor
+  
+  Arena(float x, float y, float x2, float y2){
+    arenaX = x;
+    arenaY = y;
+    arenaX2 = x2;
+    arenaY2 = y2;
+  }
+  
+  //Desenhar arena
+  
+  void desenhar(){
+    stroke(50);
+    fill(205);
+    rectMode(CENTER);
+    rect(arenaX, arenaY, arenaX2, arenaY2);
+  } 
+}
