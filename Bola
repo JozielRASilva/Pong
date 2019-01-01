@@ -1,0 +1,80 @@
+class Bola {
+
+  // Eixos X e Y
+
+  float bolaX;
+  float bolaY;
+
+  // Raio da bola
+
+  float bolaR;
+
+  // Direção da bola
+
+  int bolaDx = -1;
+  int bolaDy = -1;
+
+  // Velocidade da bola
+
+  float bolaV = 4;
+
+  // Construtor
+
+  Bola(float x, float y, float r) {
+    bolaX = x;
+    bolaY = y;
+    bolaR = r;
+  }
+
+  // Desenhar bola
+
+  void desenhar() {
+    noStroke();
+    fill(60);
+    ellipseMode(CENTER);
+    ellipse(bolaX, bolaY, bolaR * 2, bolaR *2);
+  }
+
+  void mover() {
+    bolaX += bolaV*bolaDx;
+    bolaY += bolaV*bolaDy;
+  }
+
+  boolean tocouBorda(Arena x) {
+    boolean tocou = false;
+
+    if (bolaX - bolaR <= x.arenaX - x.arenaX2/2 || bolaX + bolaR >= x.arenaX + x.arenaX2/2) {
+      bolaDx = -(bolaDx);
+    }
+    if (bolaY - bolaR <= x.arenaY - x.arenaY2/2 || bolaY + bolaR >= x.arenaY + x.arenaY2/2) {
+      bolaDy = -(bolaDy);
+    }
+
+    return tocou;
+  }
+
+  // Contato com a barra
+
+  boolean tocouBarra(Barra x) {
+    boolean tocou = false;
+
+    if (x.barraX + x.barraX2/2 >= bolaX - bolaR && x.barraX - x.barraX2/2 <= bolaX + bolaR && x.barraY - x.barraY2/2 <= bolaY + bolaR  && x.barraY + x.barraY2/2 >= bolaY - bolaR) {
+      tocou = true;
+    }
+
+    return tocou;
+  }
+
+  void contatoBarra(Barra x) {
+    if (tocouBarra(x)) {
+      bolaDx = -(bolaDx);
+      if (bolaV < 10) {
+        bolaV++;
+      }
+    }
+  }
+
+  void statusBola() {
+    println("bolaX: ", bolaX, " | bolaY: ", bolaY, " | bolaR: ", bolaR, " | bolaV: ", bolaV," | bolaDx:", bolaDx, " | bolaDy: ", bolaDy);
+  }
+}
