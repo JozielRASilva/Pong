@@ -1,0 +1,100 @@
+class Barra {
+
+  // Ponto de inicio da barra
+
+  float barraX;
+  float barraY;
+
+  float barraX2;
+  float barraY2;
+
+  // Testes de movimentação
+
+  boolean cima = false;
+  boolean baixo = false; 
+
+  // Nº do Jogador
+  
+  int player = 0; 
+
+  // Construtor
+
+  Barra(float x, float y, float x2, float y2, int p) {
+
+    // Eixos
+
+    barraX = x;
+    barraY = y;
+
+    // Tamanho
+
+    barraX2 = x2;
+    barraY2 = y2;
+    
+    // Jogador valores de 1 a 2
+    
+    player = p;
+    
+  }
+
+  // Desenhar Barra
+
+  void desenhar() {
+    if (player == 1){
+      fill(255, 170, 104);
+    } else if(player == 2){
+      fill(89, 78, 232);
+    }
+    
+    rect(barraX, barraY, barraX2, barraY2);
+  }
+
+  // Movimentação
+
+  void mover() {
+    if (cima) barraY -= 7;
+    if (baixo) barraY += 7; 
+
+    if (tocouBordaUP(campo)) barraY += 7;
+    if (tocouBordaDOWN(campo)) barraY -= 7;
+  }
+
+  void pressionou() {
+    if( player == 1 ){
+    if (keyCode == UP) cima = true;
+    if (keyCode == DOWN) baixo = true;
+    }
+    if( player == 2 ){
+    if (keyCode == 'W' || keyCode == 'w') cima = true;
+    if (keyCode == 'S' || keyCode == 's') baixo = true;
+    }
+  }
+
+  void despressionou() {
+    if( player == 1 ){
+    if (keyCode == UP) cima = false;
+    if (keyCode == DOWN) baixo = false;
+    }
+    if( player == 2 ){
+    if (keyCode == 'W' || keyCode == 'w') cima = false;
+    if (keyCode == 'S' || keyCode == 's') baixo = false;
+    }
+  }
+
+  boolean tocouBordaUP(Arena x) {
+    boolean tocou = false;
+    if (barraY - barraY2/2 <= x.arenaY - x.arenaY2/2) {
+      tocou = true;
+    }  
+    return tocou;
+  }
+
+  boolean tocouBordaDOWN(Arena x) {
+    boolean tocou = false;
+    if (barraY + barraY2/2 >= x.arenaY + x.arenaY2/2) {
+      tocou = true;
+    }  
+    return tocou;
+  }
+
+}
