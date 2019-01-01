@@ -26,5 +26,8 @@ class Arena{
     fill(205);
     rectMode(CENTER);
     rect(arenaX, arenaY, arenaX2, arenaY2);
-  } 
+  }
+  
+  
+  
 }
