@@ -1,0 +1,73 @@
+Arena campo;
+Bola bola;
+Barra [] jogador;
+Interface contador;
+
+void setup() {
+  size(720, 540, P2D);
+  campo = new Arena(width/2, height/2 + 50, 700, 400);
+  bola = new Bola(width/2, height/2 + 50, 10);
+  contador = new Interface();
+  jogador = new Barra[2];
+
+  jogador [0] = new Barra(70, height/2 + 50, 10, 80, 2);
+  jogador [1] = new Barra(width - 70, height/2 + 50, 10, 80, 1);
+}
+
+void draw() {
+  background(70);
+
+  campo.desenhar();
+  bola.desenhar();
+  jogador[0].desenhar();
+  jogador[1].desenhar();
+  contador.desenhar();
+  
+  if (!contador.menu) {
+    if (!contador.vencedor) {
+      if (!contador.pontuou) {
+        if (!contador.pausar) {
+
+          bola.mover();
+          jogador[0].mover();  
+          jogador[1].mover();
+
+          contador.pontuou(bola, campo, jogador[0], jogador[1]);
+
+          bola.contatoBarra(jogador[0]);
+          bola.contatoBarra(jogador[1]);
+          bola.tocouBorda(campo);
+          //bola.statusBola();
+        }
+      } else {
+        contador.contagem();
+      }
+    }
+  }
+  
+}
+
+void keyPressed() {
+
+  // Iniciar Partida
+  
+  contador.menuInicial();
+  
+  // Reiniciar Partida
+
+  contador.fimDejogo();
+
+  // Detectar teclas
+
+  jogador[0].pressionou();
+  jogador[1].pressionou();
+
+  // Pausar Jogo
+
+  if (keyCode == 'p' || keyCode == 'P' && !contador.pontuou) contador.pausarJogo();
+}
+
+void keyReleased() {
+  jogador[0].despressionou();
+  jogador[1].despressionou();
+}
