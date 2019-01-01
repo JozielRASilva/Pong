@@ -1,0 +1,144 @@
+class Interface {  
+
+  int [] pontos = new int[2];
+  boolean pausar = false;
+  boolean pontuou = false;
+  String pontuador = "";
+  int count = 0;
+  boolean vencedor = false;
+  boolean menu = true;
+
+  Interface() {
+    pontos[0] = 0;
+    pontos[1] = 0;
+  }
+
+  void desenhar() {
+    fill (89, 78, 232);
+    textSize(50);
+    text ("P1:", 70, 70);
+    text (pontos[0], 170, 70);
+
+    fill (255, 170, 104);
+    text ("P2:", width - 250, 70);
+    text (pontos[1], width - 150, 70);
+
+    stroke(50);
+    strokeWeight(5);
+    line(width/2, height/2 - 150, width/2, 0);
+
+    if (pausar) {
+      fill(50);
+      textSize(50);
+      text("PAUSADO", 240, 320);
+      textSize(25);
+      text("pressione (p)", 280, 345);
+    }
+
+    if (menu) {
+      fill(50);
+      textSize(70);
+      text("PONG", 260, 230);
+      textSize(20);
+      text("(pressione qualquer tecla)", 235, 260);
+    }
+
+    if (vencedor) {
+
+      textSize(50);
+      fill(50);
+
+      if (pontuador == "P2") fill(255, 170, 104);
+      if (pontuador == "P1") fill(89, 78, 232);
+
+      text(pontuador, 210, 300);
+      text("Ganhou", 300, 300);
+      textSize(20);
+      text("pressione qualquer botão", 230, 345);
+    } else if (pontuou) {
+
+      textSize(50);
+      fill(50);
+
+      if (pontuador == "P2") fill(255, 170, 104);
+      if (pontuador == "P1") fill(89, 78, 232);
+
+      text("Ponto de ", 200, 300);
+      text(pontuador, 430, 300);
+    }
+  }
+
+  // Contato com os cantos da arena
+
+  void pontuou(Bola b, Arena a, Barra b1, Barra b2) {
+
+    if (b.bolaX - b.bolaR <= a.arenaX - a.arenaX2/2 ) {
+      pontos[1]++;
+      reset(bola, b1, b2);
+      pontuador = "P2";
+      fill(89, 78, 232);
+    } else if (b.bolaX + b.bolaR >= a.arenaX + a.arenaX2/2) {
+      pontos[0]++;
+      reset(bola, b1, b2);
+      pontuador = "P1";
+      fill(255, 170, 104);
+    }
+  }
+
+  // Resetar a tela ao pontuar
+
+  void reset(Bola b, Barra b1, Barra b2) {
+
+    // Dados da bola
+
+    b.bolaX = width/2;
+    b.bolaY = height/2 + 50;
+    b.bolaV = 4;
+    b.bolaDx = -(b.bolaDx);
+    b.bolaDy = -(b.bolaDy);
+
+    // Dados dos jogadores;
+
+    b1.barraX = 70;
+    b1.barraY = height/2 + 50;
+
+    b2.barraX = width - 70;
+    b2.barraY = height/2 + 50;
+
+    if (pontos[0] >= 10) {
+      vencedor = true;
+    } else if (pontos[1] >= 10) {
+      vencedor = true;
+    } else {
+      pontuou = true;
+    }
+  }
+
+  void pausarJogo() {
+    pausar = !pausar;
+  }
+
+  void contagem() {
+    if (count>60) {
+      contador.pontuou = false;
+      count = 0;
+    } else {
+      count++;
+    }
+  }
+
+  void fimDejogo() {
+    if (vencedor) {
+      for (int i = 0; i < 2; i++) {
+        pontos[i] = 0;
+      }
+      vencedor = false;
+    }
+  }
+  
+  void menuInicial(){
+    if (menu) {
+      menu = !menu;
+    }
+  }
+}
